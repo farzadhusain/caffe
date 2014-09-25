@@ -1,9 +1,12 @@
 clc, close all
 
 %% determine data paths
-params.afspath = '/media/shusain/farzad_hdd/ExternalProjects/action_recognition_spatio_temporal_features/';
-params.infopath = [params.afspath, 'action_youtube_naudio/vids/']; 
-params.avipath{1} = [params.afspath, 'action_youtube_naudio/vids/'];
+% params.afspath = '/media/shusain/farzad_hdd/ExternalProjects/action_recognition_spatio_temporal_features/';
+% params.infopath = [params.afspath, 'action_youtube_naudio/vids/']; 
+% params.avipath{1} = [params.afspath, 'action_youtube_naudio/vids/'];
+params.afspath = '/home/shusain/Desktop/action_recognition_spatio_temporal_features/';
+params.infopath = [params.afspath, 'action_youtube_naudio/']; 
+params.avipath{1} = [params.afspath, 'action_youtube_naudio/'];
 params.path_img_write = '../../../data/action_youtube_naudio/';
 
 test_group=1;
