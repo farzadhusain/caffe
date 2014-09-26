@@ -13,6 +13,21 @@ layers {
 }
 
 layers {
+  name: "youtube_action"
+  type: DATA
+  top: "data"
+  top: "label"
+  data_param {
+    source: "/home/shusain/caffe/data/action_youtube_naudio/testDB/"
+    batch_size: 1
+  }
+  transform_param {
+    scale: 0.00390625
+  }
+  include: { phase: TEST }
+}
+
+layers {
   name: "conv1"
   type: CONVOLUTION
   bottom: "data"
@@ -22,7 +37,7 @@ layers {
   convolution_param {
     num_output: 1
     kernel_h: 5
-    kernel_w: 100
+    kernel_w: 300
     stride: 1
     weight_filler {
       type: "xavier"
@@ -39,7 +54,7 @@ layers {
   top: "pool1"
   pooling_param {
     pool: MAX
-    kernel_w: 20
+    kernel_w: 40
     kernel_h: 2
     stride: 2
   }
@@ -54,7 +69,7 @@ layers {
   convolution_param {
     num_output: 1
     kernel_h: 5
-    kernel_w: 100
+    kernel_w: 200
     stride: 1
     weight_filler {
       type: "xavier"
@@ -71,7 +86,8 @@ layers {
   top: "pool2"
   pooling_param {
     pool: MAX
-    kernel_size: 2
+    kernel_w: 20
+    kernel_h: 2
     stride: 2
   }
 }
@@ -115,6 +131,16 @@ layers {
     }
   }
 }
+
+layers {
+  name: "accuracy"
+  type: ACCURACY
+  bottom: "ip2"
+  bottom: "label"
+  top: "accuracy"
+  include: { phase: TEST }
+}
+
 
 layers {
   name: "loss"
