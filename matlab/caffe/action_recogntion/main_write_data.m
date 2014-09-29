@@ -8,14 +8,14 @@ params.avipath{1} = [params.afspath, 'action_youtube_naudio/vids/'];
 % params.infopath = [params.afspath, 'action_youtube_naudio/']; 
 % params.avipath{1} = [params.afspath, 'action_youtube_naudio/'];
 
-params.path_img_write = '../../../data/action_youtube_naudio/data_4800_50/';
+params.path_img_write = '../../../data/action_youtube_naudio/';
 
 test_group=1;
 [all_train_labels, all_test_labels, all_train_files, all_test_files] ...
         = get_data_summary(params.infopath,test_group);
 
-ROWS = 80;
-COLUMNS = 60;
+ROWS = 8;
+COLUMNS = 7;
 TIME_SAMPLES = 50;
 size_idx = 1;
 img = [];
@@ -29,7 +29,8 @@ for i=1:m
 	if (nFrames>TIME_SAMPLES)
 		ff = int32(linspace(1,nFrames,TIME_SAMPLES));
 		for j=1:TIME_SAMPLES
-            img = cat(2,img, imresize(M(:,:,ff(j)), [ROWS*COLUMNS 1]));
+            imgx = imresize(M(:,:,ff(j)), [ROWS,COLUMNS]);
+            img = cat(2,img,imgx(:));
 % 			img = cat(2,img, imresize(M(:,:,ff(j)), [ROWS COLUMNS]));
         end
         	valid_files(i) = 1;
@@ -59,7 +60,9 @@ for i=1:m
         if (nFrames>100)
                 ff = int32(linspace(1,nFrames,TIME_SAMPLES));
                 for j=1:TIME_SAMPLES
-                        img = cat(2,img, imresize(M(:,:,ff(j)), [ROWS COLUMNS]));
+                    imgx = imresize(M(:,:,ff(j)), [ROWS,COLUMNS]);
+                    img = cat(2,img,imgx(:));
+%                     img = cat(2,img, imresize(M(:,:,ff(j)), [ROWS COLUMNS]));
                 end
                 valid_files(i) = 1;
                 imwrite(img, [params.path_img_write, all_test_files{i},'.jpg']);
