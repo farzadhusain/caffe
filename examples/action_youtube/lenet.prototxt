@@ -1,32 +1,18 @@
-name: "YouTube_Action"
-layers {
-  name: "youtube_action"
-  type: DATA
-  top: "data"
-  top: "label"
-  data_param {
-    source: "/home/shusain/caffe/data/action_youtube_naudio/trainDB"
-    batch_size: 5
-  }
-transform_param {
-    scale: 0.00390625
-  }
-  include: { phase: TRAIN }
-}
+name: "LeNet"
 
 layers {
-  name: "youtube_action"
+  name: "mnist"
   type: DATA
   top: "data"
   top: "label"
   data_param {
-    source: "/home/shusain/caffe/data/action_youtube_naudio/testDB/"
-    batch_size: 5
+    source: "/home/shusain/caffe/data/mnist/testDB"
+    backend: LMDB
+    batch_size: 100
   }
   transform_param {
     scale: 0.00390625
   }
-  include: { phase: TEST }
 }
 
 layers {
@@ -37,9 +23,8 @@ layers {
   blobs_lr: 1
   blobs_lr: 2
   convolution_param {
-    num_output: 5
-    kernel_h: 300
-    kernel_w: 5
+    num_output: 20
+    kernel_size: 5
     stride: 1
     weight_filler {
       type: "xavier"
@@ -56,8 +41,7 @@ layers {
   top: "pool1"
   pooling_param {
     pool: MAX
-    kernel_h: 40
-    kernel_w: 2
+    kernel_size: 2
     stride: 2
   }
 }
@@ -69,9 +53,8 @@ layers {
   blobs_lr: 1
   blobs_lr: 2
   convolution_param {
-    num_output: 4
-    kernel_h: 200
-    kernel_w: 5
+    num_output: 50
+    kernel_size: 5
     stride: 1
     weight_filler {
       type: "xavier"
@@ -88,8 +71,7 @@ layers {
   top: "pool2"
   pooling_param {
     pool: MAX
-    kernel_w: 2
-    kernel_h: 20
+    kernel_size: 2
     stride: 2
   }
 }
@@ -101,7 +83,7 @@ layers {
   blobs_lr: 1
   blobs_lr: 2
   inner_product_param {
-    num_output: 15
+    num_output: 500
     weight_filler {
       type: "xavier"
     }
@@ -124,7 +106,7 @@ layers {
   blobs_lr: 1
   blobs_lr: 2
   inner_product_param {
-    num_output: 11
+    num_output: 10
     weight_filler {
       type: "xavier"
     }
@@ -133,21 +115,9 @@ layers {
     }
   }
 }
-
 layers {
-  name: "accuracy"
-  type: ACCURACY
+  name: "prob"
+  type: SOFTMAX
   bottom: "ip2"
-  bottom: "label"
-  top: "accuracy"
-  include: { phase: TEST }
-}
-
-
-layers {
-  name: "loss"
-  type: SOFTMAX_LOSS
-  bottom: "ip2"
-  bottom: "label"
-  top: "loss"
+  top: "prob"
 }
